@@ -8,32 +8,32 @@ public class Shape3D {
         shapes = new ArrayList<>();
     }
 
-    public void transform(Matrix transform) {
-        for (Shape2D shape : shapes) {
+    public void transform(final Matrix transform) {
+        for (final Shape2D shape : shapes) {
             shape.transform(transform);
         }
     }
 
-    public void zoom(double zoom) {
-        for (Shape2D shape : shapes) {
+    public void zoom(final double zoom) {
+        for (final Shape2D shape : shapes) {
             shape.zoom(zoom);
         }
     }
 
-    public void roateX(int angle) {
-        for (Shape2D shape : shapes) {
-            shape.roateX(angle);
+    public void roateX(final double radian) {
+        for (final Shape2D shape : shapes) {
+            shape.roateX(radian);
         }
     }
 
-    public void roateY(int angle) {
-        for (Shape2D shape : shapes) {
-            shape.roateY(angle);
+    public void roateY(final double radian) {
+        for (final Shape2D shape : shapes) {
+            shape.roateY(radian);
         }
     }
 
-    public void drawLine(Graphics2D g2) {
-        for (Shape2D shape : shapes) {
+    public void drawLine(final Graphics2D g2) {
+        for (final Shape2D shape : shapes) {
             shape.drawLine(g2);
         }
     }

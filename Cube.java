@@ -1,7 +1,7 @@
 import java.awt.Color;
 
 public class Cube extends Shape3D {
-    public Cube(double size, Color color) {
+    public Cube(final double size, final Color color) {
         super();
 
         shapes.add(new Shape2D(new Matrix(4, 3, new double[] {

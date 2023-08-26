@@ -3,19 +3,23 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
 public class Shape2D {
-    Matrix matrix;
-    Color color;
+    protected Matrix matrix;
+    protected Color color;
 
-    Shape2D(Matrix matrix, Color color) {
+    Shape2D(final Matrix matrix) {
+        this(matrix, Color.WHITE);
+    }
+
+    Shape2D(final Matrix matrix, final Color color) {
         this.matrix = matrix;
         this.color = color;
     }
 
-    public void transform(Matrix transform) {
+    public void transform(final Matrix transform) {
         matrix = matrix.multiply(transform);
     }
 
-    public void zoom(double zoom) {
+    public void zoom(final double zoom) {
         transform(new Matrix(3, 3, new double[] {
                 zoom, 0, 0,
                 0, zoom, 0,
@@ -23,25 +27,25 @@ public class Shape2D {
         }));
     }
 
-    public void roateX(int angle) {
+    public void roateX(final double radian) {
         transform(new Matrix(3, 3, new double[] {
-                Math.cos(angle), 0, Math.sin(angle),
+                Math.cos(radian), 0, -Math.sin(radian),
                 0, 1, 0,
-                -Math.sin(angle), 0, Math.cos(angle)
+                Math.sin(radian), 0, Math.cos(radian)
         }));
     }
 
-    public void roateY(int angle) {
+    public void roateY(final double radian) {
         transform(new Matrix(3, 3, new double[] {
                 1, 0, 0,
-                0, Math.cos(angle), Math.sin(angle),
-                0, -Math.sin(angle), Math.cos(angle)
+                0, Math.cos(radian), Math.sin(radian),
+                0, -Math.sin(radian), Math.cos(radian)
         }));
     }
 
-    public void drawLine(Graphics2D g2) {
+    public void drawLine(final Graphics2D g2) {
         g2.setColor(color);
-        Path2D path = new Path2D.Double();
+        final Path2D path = new Path2D.Double();
         path.moveTo(matrix.get(0, 0), matrix.get(0, 1));
         for (int y = 1; y < matrix.m(); ++y) {
             path.lineTo(matrix.get(y, 0), matrix.get(y, 1));

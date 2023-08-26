@@ -8,9 +8,10 @@ import java.awt.event.MouseWheelListener;
 
 public class Render3D extends JFrame {
     public class MyPanel extends JPanel {
-        public void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(Color.BLACK);
+        public void paintComponent(final Graphics g) {
+            final Graphics2D g2 = (Graphics2D) g;
+
+            g2.setColor(backgroundColor);
             g2.fillRect(0, 0, getWidth(), getHeight());
 
             g2.translate(getWidth() / 2, getHeight() / 2);
@@ -20,70 +21,73 @@ public class Render3D extends JFrame {
 
     public class handleMouseWheel implements MouseWheelListener {
         @Override
-        public void mouseWheelMoved(MouseWheelEvent e) {
-            shape3D.zoom(e.getWheelRotation() * 0.5);
+        public void mouseWheelMoved(final MouseWheelEvent e) {
+            shape3D.zoom(Math.abs(e.getWheelRotation() + ZOOM_SPEED));
             renderPanel.repaint();
         }
     }
 
     public class handleMouseMotion implements MouseMotionListener {
         @Override
-        public void mouseDragged(MouseEvent e) {
-            double yi = 180.0 / renderPanel.getHeight();
-            double xi = 180.0 / renderPanel.getWidth();
-            shape3D.roateX((int) ((e.getX() - mouseX) * xi));
-            shape3D.roateY(-(int) ((e.getY() - mouseY) * yi));
+        public void mouseDragged(final MouseEvent e) {
+            final double roateX = Math.toRadians((mouseX - e.getX()) * ROATE_SPEED);
+            final double roateY = Math.toRadians((mouseY - e.getY()) * ROATE_SPEED);
+
+            shape3D.roateX(roateX);
+            shape3D.roateY(roateY);
             renderPanel.repaint();
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) {
+        public void mouseMoved(final MouseEvent e) {
         }
 
     }
 
     public class handleMouse implements MouseListener {
-
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(final MouseEvent e) {
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(final MouseEvent e) {
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(final MouseEvent e) {
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(final MouseEvent e) {
             mouseX = e.getX();
             mouseY = e.getY();
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseReleased(final MouseEvent e) {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(final String args[]) {
         new Render3D().run();
     }
 
-    private int SCREEN_WIDTH = 700;
+    private final int SCREEN_WIDTH = 700;
+    private final int SCREEN_HEIGHT = 700;
+    private final double ZOOM_SPEED = 0.05;
+    private final double ROATE_SPEED = 0.005;
 
-    private int SCREEN_HEIGHT = 700;
+    private final JPanel renderPanel;
 
-    private JPanel renderPanel;
+    private final Color backgroundColor = Color.BLACK;
 
-    private Shape3D shape3D;
+    private final Shape3D shape3D;
 
     private double mouseX = 0;
     private double mouseY = 0;
 
     Render3D() {
-        Container pane = getContentPane();
+        final Container pane = getContentPane();
         pane.setLayout(new BorderLayout());
         shape3D = new Cube(100, Color.WHITE);
 
