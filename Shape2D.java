@@ -18,6 +18,15 @@ public class Shape2D implements Shape {
     }
 
     @Override
+    public void translate(final double x, final double y, final double z) {
+        for (int i = 0; i < matrix.m(); ++i) {
+            matrix.set(i, 0, matrix.get(i, 0) + x);
+            matrix.set(i, 1, matrix.get(i, 1) + y);
+            matrix.set(i, 2, matrix.get(i, 2) + z);
+        }
+    };
+
+    @Override
     public void transform(final Matrix transform) {
         matrix = matrix.multiply(transform);
     }

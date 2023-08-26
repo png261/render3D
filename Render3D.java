@@ -81,8 +81,8 @@ public class Render3D extends JFrame {
         }
     }
 
-    private final int FRAME_WIDTH = 700;
-    private final int FRAME_HEIGHT = 700;
+    private final int FRAME_WIDTH = 1280;
+    private final int FRAME_HEIGHT = 768;
     private final double ZOOM_SPEED = 0.05;
     private final double ROATE_SPEED = 0.005;
 
@@ -102,22 +102,27 @@ public class Render3D extends JFrame {
 
         final int COORD_SIZE = 400;
         shapes.add(new Shape2D(new Matrix(2, 3, new double[] {
-                0, 0, 0,
                 COORD_SIZE, 0, 0,
+                0, 0, 0,
         }), Color.YELLOW));
 
         shapes.add(new Shape2D(new Matrix(2, 3, new double[] {
-                0, 0, 0,
                 0, COORD_SIZE, 0,
+                0, 0, 0,
         }), Color.YELLOW));
 
         shapes.add(new Shape2D(new Matrix(2, 3, new double[] {
-                0, 0, 0,
                 0, 0, COORD_SIZE,
+                0, 0, 0,
         }), Color.YELLOW));
 
-        shapes.add(new Cube(100, Color.WHITE));
-        shapes.add(new Pyramid(100, Color.WHITE));
+        final Cube cube = new Cube(100, Color.WHITE);
+        final Pyramid pyramid = new Pyramid(100, Color.WHITE);
+        cube.translate(100, 100, 0);
+        pyramid.translate(100, 0, 0);
+
+        shapes.add(cube);
+        shapes.add(pyramid);
 
         renderPanel = new MyPanel();
         renderPanel.addMouseWheelListener(new handleMouseWheel());

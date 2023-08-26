@@ -9,6 +9,13 @@ public class Shape3D implements Shape {
     }
 
     @Override
+    public void translate(final double x, final double y, final double z) {
+        for (final Shape2D shape : shapes) {
+            shape.translate(x, y, z);
+        }
+    };
+
+    @Override
     public void transform(final Matrix transform) {
         for (final Shape2D shape : shapes) {
             shape.transform(transform);
