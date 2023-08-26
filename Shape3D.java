@@ -30,16 +30,16 @@ public class Shape3D implements Shape {
     }
 
     @Override
-    public void roateX(final double radian) {
+    public void roateX(final double deg) {
         for (final Shape2D shape : shapes) {
-            shape.roateX(radian);
+            shape.roateX(deg);
         }
     }
 
     @Override
-    public void roateY(final double radian) {
+    public void roateY(final double deg) {
         for (final Shape2D shape : shapes) {
-            shape.roateY(radian);
+            shape.roateY(deg);
         }
     }
 

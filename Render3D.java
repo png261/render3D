@@ -51,16 +51,16 @@ public class Render3D extends JFrame {
                 double roateX = 0;
                 double roateY = 0;
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    roateX = -0.05;
+                    roateX = -5;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    roateX = 0.05;
+                    roateX = 5;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    roateY = 0.05;
+                    roateY = 5;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    roateY = -0.05;
+                    roateY = -5;
                 }
 
                 for (final Shape shape : shapes) {
@@ -84,7 +84,7 @@ public class Render3D extends JFrame {
         public void mouseWheelMoved(final MouseWheelEvent e) {
             if (!e.isControlDown()) {
                 for (final Shape shape : shapes) {
-                    shape.roateY(e.getWheelRotation() * 0.05);
+                    shape.roateY(e.getWheelRotation() * 5);
                 }
             } else {
                 for (final Shape shape : shapes) {
@@ -105,8 +105,8 @@ public class Render3D extends JFrame {
                     shape.translate(0, (e.getY() - mouseY) / 50, 0);
                 }
             } else {
-                final double roateX = Math.toRadians((mouseX - e.getX()) * ROATE_SPEED);
-                final double roateY = Math.toRadians((mouseY - e.getY()) * ROATE_SPEED);
+                final double roateX = (mouseX - e.getX()) * ROATE_SPEED;
+                final double roateY = (mouseY - e.getY()) * ROATE_SPEED;
 
                 for (final Shape shape : shapes) {
                     shape.roateX(roateX);
@@ -169,8 +169,8 @@ public class Render3D extends JFrame {
 
         final Cube cube = new Cube(100, Color.WHITE);
         final Pyramid pyramid = new Pyramid(100, Color.WHITE);
-        cube.translate(100, 100, 0);
-        pyramid.translate(100, 0, 0);
+        cube.translate(100, 0, 0);
+        pyramid.translate(100, 100, 0);
 
         shapes.add(new Cordinate3D(400, Color.YELLOW));
         shapes.add(cube);

@@ -7,9 +7,9 @@ public interface Shape {
 
     public void zoom(final double zoom);
 
-    public void roateX(final double radian);
+    public void roateX(final double deg);
 
-    public void roateY(final double radian);
+    public void roateY(final double deg);
 
     public void drawLine(final Graphics2D g2);
 
