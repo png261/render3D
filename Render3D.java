@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,7 +16,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Render3D extends JFrame {
-    public class MyPanel extends JPanel {
+    class MyPanel extends JPanel {
+        public MyPanel() {
+            addMouseWheelListener(new handleMouseWheel());
+            addMouseMotionListener(new handleMouseMotion());
+            addMouseListener(new handleMouse());
+            addKeyListener(new handleKey());
+            setFocusable(true);
+        }
+
         public void paintComponent(final Graphics g) {
             final Graphics2D g2 = (Graphics2D) g;
 
@@ -28,25 +38,80 @@ public class Render3D extends JFrame {
         }
     }
 
-    public class handleMouseWheel implements MouseWheelListener {
+    class handleKey implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                spaceKeyPressed = true;
+            } else {
+                double roateX = 0;
+                double roateY = 0;
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    roateX = -0.05;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    roateX = 0.05;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    roateY = 0.05;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    roateY = -0.05;
+                }
+
+                for (final Shape shape : shapes) {
+                    shape.roateX(roateX);
+                    shape.roateY(roateY);
+                }
+                renderPanel.repaint();
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                spaceKeyPressed = false;
+            }
+        }
+    }
+
+    class handleMouseWheel implements MouseWheelListener {
         @Override
         public void mouseWheelMoved(final MouseWheelEvent e) {
-            for (final Shape shape : shapes) {
-                shape.zoom(Math.abs(e.getWheelRotation() + ZOOM_SPEED));
+            if (!e.isControlDown()) {
+                for (final Shape shape : shapes) {
+                    shape.roateY(e.getWheelRotation() * 0.05);
+                }
+            } else {
+                for (final Shape shape : shapes) {
+                    shape.zoom(Math.abs(e.getWheelRotation() + ZOOM_SPEED));
+                }
             }
+
             renderPanel.repaint();
         }
     }
 
-    public class handleMouseMotion implements MouseMotionListener {
+    class handleMouseMotion implements MouseMotionListener {
         @Override
         public void mouseDragged(final MouseEvent e) {
-            final double roateX = Math.toRadians((mouseX - e.getX()) * ROATE_SPEED);
-            final double roateY = Math.toRadians((mouseY - e.getY()) * ROATE_SPEED);
+            if (spaceKeyPressed) {
+                for (final Shape shape : shapes) {
+                    shape.translate((e.getX() - mouseX) / 50, 0, 0);
+                    shape.translate(0, (e.getY() - mouseY) / 50, 0);
+                }
+            } else {
+                final double roateX = Math.toRadians((mouseX - e.getX()) * ROATE_SPEED);
+                final double roateY = Math.toRadians((mouseY - e.getY()) * ROATE_SPEED);
 
-            for (final Shape shape : shapes) {
-                shape.roateX(roateX);
-                shape.roateY(roateY);
+                for (final Shape shape : shapes) {
+                    shape.roateX(roateX);
+                    shape.roateY(roateY);
+                }
             }
             renderPanel.repaint();
         }
@@ -57,7 +122,7 @@ public class Render3D extends JFrame {
 
     }
 
-    public class handleMouse implements MouseListener {
+    class handleMouse implements MouseListener {
         @Override
         public void mouseClicked(final MouseEvent e) {
         }
@@ -95,39 +160,23 @@ public class Render3D extends JFrame {
     private double mouseX = 0;
     private double mouseY = 0;
 
+    private boolean spaceKeyPressed = false;
+
     Render3D() {
         shapes = new ArrayList<>();
         final Container pane = getContentPane();
         pane.setLayout(new BorderLayout());
-
-        final int COORD_SIZE = 400;
-        shapes.add(new Shape2D(new Matrix(2, 3, new double[] {
-                COORD_SIZE, 0, 0,
-                0, 0, 0,
-        }), Color.YELLOW));
-
-        shapes.add(new Shape2D(new Matrix(2, 3, new double[] {
-                0, COORD_SIZE, 0,
-                0, 0, 0,
-        }), Color.YELLOW));
-
-        shapes.add(new Shape2D(new Matrix(2, 3, new double[] {
-                0, 0, COORD_SIZE,
-                0, 0, 0,
-        }), Color.YELLOW));
 
         final Cube cube = new Cube(100, Color.WHITE);
         final Pyramid pyramid = new Pyramid(100, Color.WHITE);
         cube.translate(100, 100, 0);
         pyramid.translate(100, 0, 0);
 
+        shapes.add(new Cordinate3D(400, Color.YELLOW));
         shapes.add(cube);
         shapes.add(pyramid);
 
         renderPanel = new MyPanel();
-        renderPanel.addMouseWheelListener(new handleMouseWheel());
-        renderPanel.addMouseMotionListener(new handleMouseMotion());
-        renderPanel.addMouseListener(new handleMouse());
         pane.add(renderPanel, BorderLayout.CENTER);
     }
 
