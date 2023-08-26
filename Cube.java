@@ -6,46 +6,37 @@ public class Cube extends Shape3D {
 
         shapes.add(new Shape2D(new Matrix(4, 3, new double[] {
                 0, 0, 0,
-                1, 0, 0,
-                1, 1, 0,
-                0, 1, 0
+                size, 0, 0,
+                size, size, 0,
+                0, size, 0
         }), color));
 
         shapes.add(new Shape2D(new Matrix(4, 3, new double[] {
-                1, 0, 1,
-                1, 0, 0,
-                1, 1, 0,
-                1, 1, 1
+                size, 0, size,
+                size, 0, 0,
+                size, size, 0,
+                size, size, size
         }), color));
 
         shapes.add(new Shape2D(new Matrix(4, 3, new double[] {
-                0, 0, 1,
-                1, 0, 1,
-                1, 1, 1,
-                0, 1, 1
+                0, 0, size,
+                size, 0, size,
+                size, size, size,
+                0, size, size
         }), color));
 
         shapes.add(new Shape2D(new Matrix(4, 3, new double[] {
-                0, 1, 1,
-                1, 1, 1,
-                1, 1, 0,
-                0, 1, 0
-        }), color));
-
-        shapes.add(new Shape2D(new Matrix(4, 3, new double[] {
-                0, 0, 0,
-                0, 0, 1,
-                0, 1, 1,
-                0, 1, 0
+                0, size, size,
+                size, size, size,
+                size, size, 0,
+                0, size, 0
         }), color));
 
         shapes.add(new Shape2D(new Matrix(4, 3, new double[] {
                 0, 0, 0,
-                1, 0, 0,
-                1, 0, 1,
-                0, 0, 1
+                0, 0, size,
+                0, size, size,
+                0, size, 0
         }), color));
-
-        zoom(size);
     }
 }

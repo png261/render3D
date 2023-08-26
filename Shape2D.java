@@ -1,10 +1,12 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
-public class Shape2D {
+public class Shape2D implements Shape {
     protected Matrix matrix;
     protected Color color;
+    protected double thickness = 2;
 
     Shape2D(final Matrix matrix) {
         this(matrix, Color.WHITE);
@@ -15,18 +17,22 @@ public class Shape2D {
         this.color = color;
     }
 
+    @Override
     public void transform(final Matrix transform) {
         matrix = matrix.multiply(transform);
     }
 
+    @Override
     public void zoom(final double zoom) {
         transform(new Matrix(3, 3, new double[] {
                 zoom, 0, 0,
                 0, zoom, 0,
                 0, 0, zoom
         }));
+        thickness += (zoom - 1);
     }
 
+    @Override
     public void roateX(final double radian) {
         transform(new Matrix(3, 3, new double[] {
                 Math.cos(radian), 0, -Math.sin(radian),
@@ -35,6 +41,7 @@ public class Shape2D {
         }));
     }
 
+    @Override
     public void roateY(final double radian) {
         transform(new Matrix(3, 3, new double[] {
                 1, 0, 0,
@@ -43,8 +50,10 @@ public class Shape2D {
         }));
     }
 
+    @Override
     public void drawLine(final Graphics2D g2) {
         g2.setColor(color);
+        g2.setStroke(new BasicStroke((float) Math.max(0, thickness)));
         final Path2D path = new Path2D.Double();
         path.moveTo(matrix.get(0, 0), matrix.get(0, 1));
         for (int y = 1; y < matrix.m(); ++y) {
