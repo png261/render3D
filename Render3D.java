@@ -40,27 +40,27 @@ public class Render3D extends JFrame {
 
     class handleKey implements KeyListener {
         @Override
-        public void keyTyped(KeyEvent e) {
+        public void keyTyped(final KeyEvent e) {
         }
 
         @Override
-        public void keyPressed(KeyEvent e) {
+        public void keyPressed(final KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 spaceKeyPressed = true;
             } else {
                 double roateX = 0;
                 double roateY = 0;
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    roateX = -5;
+                    roateX = -ARROW_ROATE_SPEED;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    roateX = 5;
+                    roateX = ARROW_ROATE_SPEED;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    roateY = 5;
+                    roateY = ARROW_ROATE_SPEED;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    roateY = -5;
+                    roateY = -ARROW_ROATE_SPEED;
                 }
 
                 for (final Shape shape : shapes) {
@@ -72,7 +72,7 @@ public class Render3D extends JFrame {
         }
 
         @Override
-        public void keyReleased(KeyEvent e) {
+        public void keyReleased(final KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 spaceKeyPressed = false;
             }
@@ -105,8 +105,8 @@ public class Render3D extends JFrame {
                     shape.translate(0, (e.getY() - mouseY) / 50, 0);
                 }
             } else {
-                final double roateX = (mouseX - e.getX()) * ROATE_SPEED;
-                final double roateY = (mouseY - e.getY()) * ROATE_SPEED;
+                final double roateX = (mouseX - e.getX()) * MOUSE_ROATE_SPEED;
+                final double roateY = (mouseY - e.getY()) * MOUSE_ROATE_SPEED;
 
                 for (final Shape shape : shapes) {
                     shape.roateX(roateX);
@@ -149,7 +149,8 @@ public class Render3D extends JFrame {
     private final int FRAME_WIDTH = 1280;
     private final int FRAME_HEIGHT = 768;
     private final double ZOOM_SPEED = 0.05;
-    private final double ROATE_SPEED = 0.005;
+    private final double ARROW_ROATE_SPEED = 5;
+    private final double MOUSE_ROATE_SPEED = 0.005;
 
     private final JPanel renderPanel;
 
@@ -163,21 +164,22 @@ public class Render3D extends JFrame {
     private boolean spaceKeyPressed = false;
 
     Render3D() {
+        renderPanel = new MyPanel();
+        getContentPane().add(renderPanel, BorderLayout.CENTER);
+
         shapes = new ArrayList<>();
-        final Container pane = getContentPane();
-        pane.setLayout(new BorderLayout());
+
+        final Cordinate3D cordinate3D = new Cordinate3D(400, Color.YELLOW);
 
         final Cube cube = new Cube(100, Color.WHITE);
-        final Pyramid pyramid = new Pyramid(100, Color.WHITE);
-        cube.translate(100, 0, 0);
-        pyramid.translate(100, 100, 0);
+        cube.translate(100, 0, 100);
 
-        shapes.add(new Cordinate3D(400, Color.YELLOW));
+        final Pyramid pyramid = new Pyramid(100, Color.WHITE);
+        pyramid.translate(100, 100, 100);
+
+        shapes.add(cordinate3D);
         shapes.add(cube);
         shapes.add(pyramid);
-
-        renderPanel = new MyPanel();
-        pane.add(renderPanel, BorderLayout.CENTER);
     }
 
     public void run() {

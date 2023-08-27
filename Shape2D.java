@@ -43,7 +43,7 @@ public class Shape2D implements Shape {
 
     @Override
     public void roateX(final double deg) {
-        double radian = Math.toRadians(deg);
+        final double radian = Math.toRadians(deg);
         transform(new Matrix(3, 3, new double[] {
                 Math.cos(radian), 0, -Math.sin(radian),
                 0, 1, 0,
@@ -53,7 +53,7 @@ public class Shape2D implements Shape {
 
     @Override
     public void roateY(final double deg) {
-        double radian = Math.toRadians(deg);
+        final double radian = Math.toRadians(deg);
         transform(new Matrix(3, 3, new double[] {
                 1, 0, 0,
                 0, Math.cos(radian), Math.sin(radian),
