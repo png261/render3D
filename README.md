@@ -10,11 +10,14 @@ Then run with command
 java -jar render3D.jar
 ```
 ## How to use
+
 Drag mouse or use arrow keys to rotate
 
-Ctrl + scroll to zoom
-
 Space + drag mouse to move
+
+Scroll to roateY
+
+Ctrl + scroll to zoom
 
 ## References
 - [How to create your own simple 3D render engine in pure Java](http://blog.rogach.org/2015/08/how-to-create-your-own-simple-3d-render.html)
